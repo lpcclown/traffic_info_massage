@@ -2,9 +2,11 @@ import csv
 import glob
 import datetime
 import openpyxl
+import xlsxwriter
+import xlrd
 
 starting_time = "03:10"
-duration = 89
+duration = 150
 ssid = ['4869']
 movement_head = ['WT', 'ET', 'NT', 'ST', 'WL', 'EL', 'NL', 'SL']
 # another_final_file = "finalReport_" + ssid[0] + "_2_10_" + str(duration) + "_.csv"
@@ -67,6 +69,7 @@ c = 1
 d = 1
 common_array = []
 
+
 def init_final_report():
     sheet["A1"] = "Time"
     sheet["B1"] = "Period"
@@ -100,8 +103,9 @@ def fill_empty(column_name, total_row_number):
     i = 2
     while (i < total_row_number):
         if sheet[column_name + str(i)].value is None:
-            sheet[column_name + str(i)].value = sheet[column_name + str(i-1)].value
+            sheet[column_name + str(i)].value = sheet[column_name + str(i - 1)].value
         i += 1
+
 
 for strSSID in ssid:
     for infile in sorted(glob.glob('*.csv')):
@@ -117,8 +121,8 @@ for strSSID in ssid:
                             if column == "Time\"":
                                 if (compare_time(starting_time,
                                                  transform_time(str(value)).split(" - ")[1]) == 1 and compare_time(
-                                        transform_time(str(value)).split(" - ")[0],
-                                        calculate_ending_time(starting_time)) == 1):
+                                    transform_time(str(value)).split(" - ")[0],
+                                    calculate_ending_time(starting_time)) == 1):
                                     c += 1
                                     cell_name = "D" + str(c)
                                     sheet[cell_name] = transform_time(str(value))
@@ -146,8 +150,8 @@ for strSSID in ssid:
                             if column == "Time\"":
                                 if (compare_time(starting_time,
                                                  transform_time(str(value)).split(" - ")[1]) == 1 and compare_time(
-                                        transform_time(str(value)).split(" - ")[0],
-                                        calculate_ending_time(starting_time)) == 1):
+                                    transform_time(str(value)).split(" - ")[0],
+                                    calculate_ending_time(starting_time)) == 1):
                                     c += 1
                                     cell_name = "G" + str(c)
                                     sheet[cell_name] = transform_time(str(value))
@@ -158,6 +162,7 @@ for strSSID in ssid:
                                     if transfrom_date(str(value)) != temp:
                                         sheet[cell_name] = transfrom_date(str(value))
                                         common_array.append(c)
+                                        line = c  # used to generate chart
                                 else:
                                     break
                             if column == "Strength":
@@ -176,8 +181,8 @@ for strSSID in ssid:
                             if column == "Time\"":
                                 if (compare_time(starting_time,
                                                  transform_time(str(value)).split(" - ")[1]) == 1 and compare_time(
-                                        transform_time(str(value)).split(" - ")[0],
-                                        calculate_ending_time(starting_time)) == 1):
+                                    transform_time(str(value)).split(" - ")[0],
+                                    calculate_ending_time(starting_time)) == 1):
                                     c += 1
                                     cell_name = "J" + str(c)
                                     sheet[cell_name] = transform_time(str(value))
@@ -205,8 +210,8 @@ for strSSID in ssid:
                             if column == "Time\"":
                                 if (compare_time(starting_time,
                                                  transform_time(str(value)).split(" - ")[1]) == 1 and compare_time(
-                                        transform_time(str(value)).split(" - ")[0],
-                                        calculate_ending_time(starting_time)) == 1):
+                                    transform_time(str(value)).split(" - ")[0],
+                                    calculate_ending_time(starting_time)) == 1):
                                     c += 1
                                     cell_name = "M" + str(c)
                                     sheet[cell_name] = transform_time(str(value))
@@ -234,8 +239,8 @@ for strSSID in ssid:
                             if column == "Time\"":
                                 if (compare_time(starting_time,
                                                  transform_time(str(value)).split(" - ")[1]) == 1 and compare_time(
-                                        transform_time(str(value)).split(" - ")[0],
-                                        calculate_ending_time(starting_time)) == 1):
+                                    transform_time(str(value)).split(" - ")[0],
+                                    calculate_ending_time(starting_time)) == 1):
                                     c += 1
                                     cell_name = "P" + str(c)
                                     sheet[cell_name] = transform_time(str(value))
@@ -263,8 +268,8 @@ for strSSID in ssid:
                             if column == "Time\"":
                                 if (compare_time(starting_time,
                                                  transform_time(str(value)).split(" - ")[1]) == 1 and compare_time(
-                                        transform_time(str(value)).split(" - ")[0],
-                                        calculate_ending_time(starting_time)) == 1):
+                                    transform_time(str(value)).split(" - ")[0],
+                                    calculate_ending_time(starting_time)) == 1):
                                     c += 1
                                     cell_name = "S" + str(c)
                                     sheet[cell_name] = transform_time(str(value))
@@ -293,8 +298,8 @@ for strSSID in ssid:
                             if column == "Time\"":
                                 if (compare_time(starting_time,
                                                  transform_time(str(value)).split(" - ")[1]) == 1 and compare_time(
-                                        transform_time(str(value)).split(" - ")[0],
-                                        calculate_ending_time(starting_time)) == 1):
+                                    transform_time(str(value)).split(" - ")[0],
+                                    calculate_ending_time(starting_time)) == 1):
                                     c += 1
                                     cell_name = "V" + str(c)
                                     sheet[cell_name] = transform_time(str(value))
@@ -322,8 +327,8 @@ for strSSID in ssid:
                             if column == "Time\"":
                                 if (compare_time(starting_time,
                                                  transform_time(str(value)).split(" - ")[1]) == 1 and compare_time(
-                                        transform_time(str(value)).split(" - ")[0],
-                                        calculate_ending_time(starting_time)) == 1):
+                                    transform_time(str(value)).split(" - ")[0],
+                                    calculate_ending_time(starting_time)) == 1):
                                     c += 1
                                     cell_name = "Y" + str(c)
                                     sheet[cell_name] = transform_time(str(value))
@@ -340,9 +345,6 @@ for strSSID in ssid:
                                 sheet[cell_name] = str(value)
                     except:
                         print("There is dirty data row in the file.")
-
-
-
 
 reader = csv.DictReader(open(another_final_file))
 i = 0
@@ -380,14 +382,166 @@ for row in reader:
     i += 1
 
 init_final_report()
-fill_empty("B", c+1)
-fill_empty("C", c+1)
-fill_empty("F", c+1)
-fill_empty("I", c+1)
-fill_empty("L", c+1)
-fill_empty("O", c+1)
-fill_empty("R", c+1)
-fill_empty("U", c+1)
-fill_empty("X", c+1)
+fill_empty("B", c + 1)
+fill_empty("C", c + 1)
+fill_empty("F", c + 1)
+fill_empty("I", c + 1)
+fill_empty("L", c + 1)
+fill_empty("O", c + 1)
+fill_empty("R", c + 1)
+fill_empty("U", c + 1)
+fill_empty("X", c + 1)
 
 xfile.save('text3.xlsx')
+
+workbook = xlrd.open_workbook('text3.xlsx')
+sheets = workbook.sheets()
+wb = xlsxwriter.Workbook('text3.xlsx')
+
+for sheet in sheets:  # write data from old file
+    newSheet = wb.add_worksheet(sheet.name)
+    for row in range(sheet.nrows):
+        for col in range(sheet.ncols):
+            newSheet.write(row, col, sheet.cell(row, col).value)
+
+def create_new_chart(workbook):
+    chart = workbook.add_chart({'type': 'line'})
+
+    chart.set_legend({'position': 'right'})
+
+    # Add a chart title and some axis labels.
+    chart.set_title({'name': 'Traffic Info'})
+    chart.set_x_axis({'name': 'Time Intervals', })
+    chart.set_y_axis({'name': 'Bond', 'major_gridlines': {'visible': 0}})
+    chart.set_y2_axis({'name': 'Travel Time'})
+    return chart
+
+new_chart_sheet = wb.add_worksheet("ChartSheet")
+i = 0
+j = 2
+
+
+for common_row in common_array:  # every loop draw 8 pic
+    chart = create_new_chart(wb)
+    chart.add_series({
+        'name': '=Sheet1!$C$1',
+        'values': ('=Sheet1!$C$2:$C$' + str(line)),
+        'y2_axis': 1,
+    })
+    chart.add_series({
+        'name': '=Sheet1!$E$1',
+        'values': ('=Sheet1!$E$2:$E$' + str(line)),
+    })
+
+    # Insert 1 the chart into the worksheet (with an offset).
+
+    new_chart_sheet.insert_chart('B' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
+
+    chart = create_new_chart(wb)
+    chart.add_series({
+        'name': '=Sheet1!$F$1',
+        'values': ('=Sheet1!$F$2:$F$' + str(line)),
+        'y2_axis': 1,
+    })
+    chart.add_series({
+        'name': '=Sheet1!$H$1',
+        'values': ('=Sheet1!$H$2:$H$' + str(line)),
+    })
+
+    # Insert 2 the chart into the worksheet (with an offset).
+    new_chart_sheet.insert_chart('J' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
+
+
+    chart = create_new_chart(wb)
+    chart.add_series({
+        'name': '=Sheet1!$I$1',
+        'values': ('=Sheet1!$I$2:$I$' + str(line)),
+        'y2_axis': 1,
+    })
+    chart.add_series({
+        'name': '=Sheet1!$K$1',
+        'values': ('=Sheet1!$K$2:$K$' + str(line)),
+    })
+
+    # Insert 3 the chart into the worksheet (with an offset).
+    new_chart_sheet.insert_chart('R' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
+
+    chart = create_new_chart(wb)
+    chart.add_series({
+        'name': '=Sheet1!$L$1',
+        'values': ('=Sheet1!$L$2:$L$' + str(line)),
+        'y2_axis': 1,
+    })
+    chart.add_series({
+        'name': '=Sheet1!$N$1',
+        'values': ('=Sheet1!$N$2:$N$' + str(line)),
+    })
+
+    # Insert 4 the chart into the worksheet (with an offset).
+    new_chart_sheet.insert_chart('Z' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
+
+
+    chart = create_new_chart(wb)
+    chart.add_series({
+        'name': '=Sheet1!$O$1',
+        'values': ('=Sheet1!$O$2:$O$' + str(line)),
+        'y2_axis': 1,
+    })
+    chart.add_series({
+        'name': '=Sheet1!$Q$1',
+        'values': ('=Sheet1!$Q$2:$Q$' + str(line)),
+    })
+
+    # Insert 5 the chart into the worksheet (with an offset).
+    new_chart_sheet.insert_chart('AH' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
+
+
+    chart = create_new_chart(wb)
+    chart.add_series({
+        'name': '=Sheet1!$R$1',
+        'values': ('=Sheet1!$R$2:$R$' + str(line)),
+        'y2_axis': 1,
+    })
+    chart.add_series({
+        'name': '=Sheet1!$T$1',
+        'values': ('=Sheet1!$T$2:$T$' + str(line)),
+    })
+
+    # Insert 6 the chart into the worksheet (with an offset).
+    new_chart_sheet.insert_chart('AP' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
+
+
+    chart = create_new_chart(wb)
+    chart.add_series({
+        'name': '=Sheet1!$U$1',
+        'values': ('=Sheet1!$U$2:$U$' + str(line)),
+        'y2_axis': 1,
+    })
+    chart.add_series({
+        'name': '=Sheet1!$W$1',
+        'values': ('=Sheet1!$W$2:$W$' + str(line)),
+    })
+
+    # Insert 7 the chart into the worksheet (with an offset).
+    new_chart_sheet.insert_chart('AX' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
+
+
+    chart = create_new_chart(wb)
+    chart.add_series({
+        'name': '=Sheet1!$X$1',
+        'values': ('=Sheet1!$X$2:$X$' + str(line)),
+        'y2_axis': 1,
+    })
+    chart.add_series({
+        'name': '=Sheet1!$Z$1',
+        'values': ('=Sheet1!$Z$2:$Z$' + str(line)),
+    })
+
+    # Insert 8 the chart into the worksheet (with an offset).
+    new_chart_sheet.insert_chart('BF' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
+
+    i += 1
+    j += 17  # for next row of pics
+
+
+wb.close()
