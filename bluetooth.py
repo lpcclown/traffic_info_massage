@@ -69,6 +69,7 @@ class Handler(BaseHTTPRequestHandler):
             """)
         return
 
+    @property
     def do_POST(self):
         form = cgi.FieldStorage(
             fp=self.rfile,
@@ -258,7 +259,7 @@ class Handler(BaseHTTPRequestHandler):
                         for row in arrCounter:
                             idx = 0
                             for item in row:
-                                idx = idx + 1
+                                idx += 1
                                 if idx == len(row):
                                     f.write(str(item) + '\n')
                                 else:
@@ -731,9 +732,9 @@ class Handler(BaseHTTPRequestHandler):
 
         def create_new_chart(workbook):
             chart = workbook.add_chart({'type': 'line'})
-
             # Add a chart title and some axis labels.
-            chart.set_title({'name': 'Traffic Info'})
+            #chart.set_title({'name': 'Traffic Info (Date: ' + dates[rowNumber] + 'SSID: ' + ssid[0] + ')'})
+
             chart.set_x_axis({'name': 'Time Intervals',
                               'num_font': {
                                     # 'name': 'Arial'
@@ -763,6 +764,7 @@ class Handler(BaseHTTPRequestHandler):
 
         for common_row in common_array:  # every loop draw 8 pic
             chart = create_new_chart(wb)
+            chart.set_title({'name': 'Traffic Info (SSID: ' + ssid[0] + ' Date: ' + dates[i] + ')'})
             chart.add_series({
                 'name': date_sheet_name + '!$C$1',
                 'categories': (date_sheet_name + '!$D$2:$D$' + str(line-1)),
@@ -777,6 +779,7 @@ class Handler(BaseHTTPRequestHandler):
             # Insert 1 the chart into the worksheet (with an offset).
             new_chart_sheet.insert_chart('B' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
 
+            chart.set_title({'name': 'Traffic Info (SSID: ' + ssid[0] + ' Date: ' + dates[i] + ')'})
             chart = create_new_chart(wb)
             chart.add_series({
                 'name': date_sheet_name + '!$F$1',
@@ -792,6 +795,7 @@ class Handler(BaseHTTPRequestHandler):
             # Insert 2 the chart into the worksheet (with an offset).
             new_chart_sheet.insert_chart('J' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
 
+            chart.set_title({'name': 'Traffic Info (SSID: ' + ssid[0] + ' Date: ' + dates[i] + ')'})
             chart = create_new_chart(wb)
             chart.add_series({
                 'name': date_sheet_name + '!$I$1',
@@ -807,6 +811,7 @@ class Handler(BaseHTTPRequestHandler):
             # Insert 3 the chart into the worksheet (with an offset).
             new_chart_sheet.insert_chart('R' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
 
+            chart.set_title({'name': 'Traffic Info (SSID: ' + ssid[0] + ' Date: ' + dates[i] + ')'})
             chart = create_new_chart(wb)
             chart.add_series({
                 'name': date_sheet_name + '!$L$1',
@@ -822,6 +827,7 @@ class Handler(BaseHTTPRequestHandler):
             # Insert 4 the chart into the worksheet (with an offset).
             new_chart_sheet.insert_chart('Z' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
 
+            chart.set_title({'name': 'Traffic Info (SSID: ' + ssid[0] + ' Date: ' + dates[i] + ')'})
             chart = create_new_chart(wb)
             chart.add_series({
                 'name': date_sheet_name + '!$O$1',
@@ -837,6 +843,7 @@ class Handler(BaseHTTPRequestHandler):
             # Insert 5 the chart into the worksheet (with an offset).
             new_chart_sheet.insert_chart('AH' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
 
+            chart.set_title({'name': 'Traffic Info (SSID: ' + ssid[0] + ' Date: ' + dates[i] + ')'})
             chart = create_new_chart(wb)
             chart.add_series({
                 'name': date_sheet_name + '!$R$1',
@@ -852,6 +859,7 @@ class Handler(BaseHTTPRequestHandler):
             # Insert 6 the chart into the worksheet (with an offset).
             new_chart_sheet.insert_chart('AP' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
 
+            chart.set_title({'name': 'Traffic Info (SSID: ' + ssid[0] + ' Date: ' + dates[i] + ')'})
             chart = create_new_chart(wb)
             chart.add_series({
                 'name': date_sheet_name + '!$U$1',
@@ -867,6 +875,7 @@ class Handler(BaseHTTPRequestHandler):
             # Insert 7 the chart into the worksheet (with an offset).
             new_chart_sheet.insert_chart('AX' + str(j), chart, {'x_offset': 25, 'y_offset': 10})
 
+            chart.set_title({'name': 'Traffic Info (SSID: ' + ssid[0] + ' Date: ' + dates[i] + ')'})
             chart = create_new_chart(wb)
             chart.add_series({
                 'name': date_sheet_name + '!$X$1',
